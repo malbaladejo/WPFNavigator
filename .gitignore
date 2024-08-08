@@ -1,0 +1,10 @@
+/node_modules/*
+*/.vs/*
+bin/
+obj/
+dist/
+output/
+*.csv
+*/WeatherApp.Ftp/*config.json
+*/WeatherApp.FileWatcherServiceWorker/*config.json
+*.user
