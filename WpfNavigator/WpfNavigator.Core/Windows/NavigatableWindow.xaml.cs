@@ -10,19 +10,10 @@ namespace WpfNavigator.Core.Windows
     /// </summary>
     public partial class NavigatableWindow : Window, INavigatableWindow
     {
-        private INavigationToken navigationToken;
+        //private INavigationToken? navigationToken;
         public NavigatableWindow()
         {
-            this.Loaded += (s, e) => this.NavigatableWindow_Loaded(s, e);
-        }
-
-        private async Task NavigatableWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.navigationToken != null)
-            {
-                await this.NavigateAsync(this.navigationToken);
-                this.navigationToken = null;
-            }
+            this.InitializeComponent();
         }
 
         public IViewResolver ViewResolver { get; set; }
@@ -31,10 +22,7 @@ namespace WpfNavigator.Core.Windows
 
         public async Task NavigateAsync(INavigationToken token)
         {
-            if (this.IsLoaded)
-                // await this.navigatableControl.NavigateAsync(token);
-
-                this.navigationToken = token;
+            await this.navigatableControl.NavigateAsync(token);
         }
     }
 }
