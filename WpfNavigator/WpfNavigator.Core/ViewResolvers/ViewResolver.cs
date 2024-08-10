@@ -25,16 +25,18 @@ namespace WpfNavigator.Core.ViewResolvers
         {
             var viewContainer = this.navigationContainer.Resolve(token);
 
-            var view = this.ResolveView(viewContainer.ViewType);
-            var viewModel = this.ResolveViewModel(viewContainer.ViewType);
+            var view = this.ResolveView(viewContainer);
+            var viewModel = this.ResolveViewModel(viewContainer);
 
             view.DataContext = viewModel;
 
             return view;
         }
 
-        private FrameworkElement ResolveView(Type viewType)
+        private FrameworkElement ResolveView(ViewViewModelContainer viewViewModelContainer)
         {
+            var viewType = viewViewModelContainer.ViewType;
+
             try
             {
                 var view = this.container.Resolve(viewType);
@@ -50,15 +52,16 @@ namespace WpfNavigator.Core.ViewResolvers
             }
         }
 
-        private object ResolveViewModel(Type viewType)
+        private object ResolveViewModel(ViewViewModelContainer viewViewModelContainer)
         {
+            var viewModelType = viewViewModelContainer.ViewModelType;
             try
             {
-                return this.container.Resolve(viewType);
+                return this.container.Resolve(viewModelType);
             }
             catch (Exception ex)
             {
-                this.logger.LogError($"Try to resolve view-model {viewType}", ex);
+                this.logger.LogError($"Try to resolve view-model {viewModelType}", ex);
                 throw;
             }
         }

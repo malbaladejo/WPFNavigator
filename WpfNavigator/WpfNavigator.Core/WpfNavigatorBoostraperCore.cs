@@ -1,7 +1,6 @@
 ﻿using WpfNavigator.Core.Containers;
 using WpfNavigator.Core.Loggers;
 using WpfNavigator.Core.Navigation;
-using WpfNavigator.Core.ViewResolvers;
 using WpfNavigator.Core.Windows;
 
 namespace WpfNavigator.Core
@@ -15,12 +14,12 @@ namespace WpfNavigator.Core
         protected abstract ILogger CreateLogger();
 
         protected virtual INavigatableWindow CreateNavigatableWindow()
-            => this.container.Resolve<IWindowController>().CreateWindow();
+            => this.container.Resolve<WindowController>().CreateWindow();
 
         protected virtual void RegisterNavigatableWindow()
             => this.container.Register<INavigatableWindow, NavigatableWindow>();
 
-        public void Initialize(INavigationToken homeNavigationToken)
+        public void Initialize<TToken>(TToken homeNavigationToken) where TToken : INavigationToken
         {
             // container
             this.container = this.CreateContainer();
@@ -33,9 +32,9 @@ namespace WpfNavigator.Core
             this.RegisterNavigatableWindow();
 
             this.container.Register<IWindowController, WindowController>();
-            this.container.Register<INavigationService, NavigationService>();
+            //this.container.Register<INavigationService, NavigationService>();
             this.container.RegisterSingleton<INavigationContainer, NavigationContainer>();
-            this.container.Register<IViewResolver, ViewResolver>();
+            //this.container.Register<IViewResolver, ViewResolver>();
 
             // window
             var window = this.CreateNavigatableWindow();

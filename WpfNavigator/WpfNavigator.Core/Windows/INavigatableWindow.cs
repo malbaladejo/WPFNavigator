@@ -7,7 +7,7 @@ namespace WpfNavigator.Core.Windows
 {
     public interface INavigatableWindow
     {
-        Task NavigateAsync(INavigationToken token);
+        Task NavigateAsync<TToken>(TToken token) where TToken : INavigationToken;
 
         ///<summary>
         /// Opens a window and returns without waiting for the newly opened window to close.
@@ -37,8 +37,8 @@ namespace WpfNavigator.Core.Windows
         /// </exception>
         event EventHandler Closed;
 
-        IViewResolver ViewResolver { get; set; }
+        IViewResolver ViewResolver { get; }
 
-        ILogger Logger { get; set; }
+        ILogger Logger { get; }
     }
 }

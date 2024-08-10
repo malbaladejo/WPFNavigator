@@ -2,6 +2,6 @@
 {
     public interface INavigationService
     {
-        Task NavigateAsync(INavigationToken token);
+        Task NavigateAsync<TToken>(TToken token) where TToken : INavigationToken;
     }
 }

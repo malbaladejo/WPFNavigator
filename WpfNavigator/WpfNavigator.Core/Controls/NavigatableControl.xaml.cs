@@ -51,7 +51,7 @@ namespace WpfNavigator.Core.Controls
 
             this.Content = view;
         }
-        private async Task InvokeOnNavigatedFromAsync<TToken>(TToken token) where TToken : INavigationToken
+        private async Task InvokeOnNavigatedFromAsync(INavigationToken token)
         {
             var children = this.FindMyselfAndVisualChildren<FrameworkElement>().Reverse();
 
@@ -59,12 +59,12 @@ namespace WpfNavigator.Core.Controls
             {
                 var viewModel = child.DataContext;
 
-                if (viewModel is INavigationAware<TToken> viewModelNavigationAware)
+                if (viewModel is INavigationAware<INavigationToken> viewModelNavigationAware)
                 {
                     this.Logger.LogInformation($"{viewModel.GetType()} is INavigationAware: Calling OnNavigatedTo.");
                     viewModelNavigationAware.OnNavigatedFrom(token);
                 }
-                else if (viewModel is INavigationAsyncAware<TToken> viewModelNavigationAsyncAware)
+                else if (viewModel is INavigationAsyncAware<INavigationToken> viewModelNavigationAsyncAware)
                 {
                     this.Logger.LogInformation($"{viewModel.GetType()} is INavigationAsyncAware: Calling OnNavigatedToAsync.");
                     await viewModelNavigationAsyncAware.OnNavigatedFromAsync(token);
@@ -74,16 +74,69 @@ namespace WpfNavigator.Core.Controls
 
         private async Task InvokeOnNavigatedToAsync<TToken>(TToken token, object viewModel) where TToken : INavigationToken
         {
-            if (viewModel is INavigationAware<TToken> viewModelNavigationAware)
+            if (this.TryInvokeOnNavigatedTo<TToken>(token, viewModel))
+                return;
+
+            if (await this.TryInvokeOnNavigatedToAsync<TToken>(token, viewModel))
+                return;
+        }
+
+        private bool TryInvokeOnNavigatedTo<TToken>(TToken token, object viewModel) where TToken : INavigationToken
+        {
+            var navigationAwareIterfaces = viewModel.GetGenericTypeDefinition(typeof(INavigationAware<>));
+
+            foreach (var navigationAwareIterface in navigationAwareIterfaces)
             {
-                this.Logger.LogInformation($"{viewModel.GetType()} is INavigationAware: Calling OnNavigatedTo.");
-                viewModelNavigationAware.OnNavigatedTo(token);
+                if (navigationAwareIterface.GetGenericArguments().Length != 1)
+                    continue;
+
+                var genericArg = navigationAwareIterface.GetGenericArguments()[0];
+                if (token.GetType() != genericArg)
+                    continue;
+
+                this.Logger.LogInformation($"{viewModel.GetType()} is INavigationAware: Calling OnNavigatedTo by reflexion.");
+                var method = viewModel.GetType().GetMethod(nameof(INavigationAware<TToken>.OnNavigatedTo));
+                if (method == null)
+                    continue;
+
+                method.Invoke(viewModel, [token]);
+                return true;
             }
-            else if (viewModel is INavigationAsyncAware<TToken> viewModelNavigationAsyncAware)
+
+            this.Logger.LogInformation($"{viewModel.GetType()} does not implement INavigationAware<{token.GetType()}>.");
+
+            return false;
+        }
+
+        private async Task<bool> TryInvokeOnNavigatedToAsync<TToken>(TToken token, object viewModel) where TToken : INavigationToken
+        {
+            var navigationAwareIterfaces = viewModel.GetGenericTypeDefinition(typeof(INavigationAsyncAware<>));
+
+            foreach (var navigationAwareIterface in navigationAwareIterfaces)
             {
-                this.Logger.LogInformation($"{viewModel.GetType()} is INavigationAsyncAware: Calling OnNavigatedToAsync.");
-                await viewModelNavigationAsyncAware.OnNavigatedToAsync(token);
+                if (navigationAwareIterface.GetGenericArguments().Length != 1)
+                    continue;
+
+                var genericArg = navigationAwareIterface.GetGenericArguments()[0];
+                if (token.GetType() != genericArg)
+                    continue;
+
+                this.Logger.LogInformation($"{viewModel.GetType()} is INavigationAsyncAware: Calling OnNavigatedToAsync by reflexion.");
+                var method = viewModel.GetType().GetMethod(nameof(INavigationAsyncAware<TToken>.OnNavigatedToAsync));
+                if (method == null)
+                    continue;
+
+                var task = method.Invoke(viewModel, [token]) as Task;
+                if (task == null)
+                    continue;
+
+                await task;
+                return true;
             }
+
+            this.Logger.LogInformation($"{viewModel.GetType()} does not implement INavigationAsyncAware<{token.GetType()}>.");
+
+            return false;
         }
 
         private INavigatableWindow CurrentWindow

@@ -18,22 +18,30 @@ namespace WpfNavigator.Core.Windows
 
         public INavigatableWindow CreateWindow()
         {
+            // Container
             var childContainer = this.container.CreateChildContainer();
             childContainer.RegisterInstance(childContainer);
 
-            var window = this.container.Resolve<INavigatableWindow>();
-            window.ViewResolver = childContainer.Resolve<IViewResolver>();
+            // Logger
+            var logger = childContainer.Resolve<ILogger>();
+            childContainer.RegisterInstance(logger);
 
+            // WindowController
             var windowController = childContainer.Resolve<WindowController>();
-            windowController.CurrentWindow = window;
             childContainer.RegisterInstance<IWindowController>(windowController);
 
-            var navigationService = childContainer.Resolve<INavigationService>();
-            childContainer.RegisterInstance(navigationService);
+            // ViewResolver
+            var viewResolver = childContainer.Resolve<ViewResolver>();
+            childContainer.RegisterInstance<IViewResolver>(viewResolver);
 
-            var logger = childContainer.Resolve<ILogger>();
-            window.Logger = logger;
-            childContainer.RegisterInstance(logger);
+            // Window
+            var window = childContainer.Resolve<INavigatableWindow>();
+
+            windowController.CurrentWindow = window;
+
+            // INavigationService
+            var navigationService = childContainer.Resolve<NavigationService>();
+            childContainer.RegisterInstance<INavigationService>(navigationService);
 
             return window;
         }

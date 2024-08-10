@@ -11,16 +11,18 @@ namespace WpfNavigator.Core.Windows
     public partial class NavigatableWindow : Window, INavigatableWindow
     {
         //private INavigationToken? navigationToken;
-        public NavigatableWindow()
+        public NavigatableWindow(ILogger logger, IViewResolver viewResolver)
         {
             this.InitializeComponent();
+            this.Logger = logger;
+            this.ViewResolver = viewResolver;
         }
 
-        public IViewResolver ViewResolver { get; set; }
+        public IViewResolver ViewResolver { get; }
 
-        public ILogger Logger { get; set; }
+        public ILogger Logger { get; }
 
-        public async Task NavigateAsync(INavigationToken token)
+        public async Task NavigateAsync<TToken>(TToken token) where TToken : INavigationToken
         {
             await this.navigatableControl.NavigateAsync(token);
         }

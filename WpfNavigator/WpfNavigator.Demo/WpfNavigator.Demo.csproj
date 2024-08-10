@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WpfNavigator.Bootstrapper\WpfNavigator.Bootstrapper.csproj" />
     <ProjectReference Include="..\WpfNavigator.Core\WpfNavigator.Core.csproj" />
   </ItemGroup>
