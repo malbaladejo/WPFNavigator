@@ -15,6 +15,22 @@
                     Margin="0,0,0,10" >
                 Open in new window
             </Button>
+
+            <Button Command="{Binding OpenBigWindowCommand}"
+                    Margin="0,0,0,10" >
+                Open big window
+            </Button>
+
+            <Button Command="{Binding OpenCenterScreenWindowCommand}"
+                    Margin="0,0,0,10" >
+                Open center window
+            </Button>
+
+            <Button Command="{Binding OpenCenterOwnerWindowCommand}"
+                    Margin="0,0,0,10" >
+                Open window centered in owner 
+            </Button>
+            
             <Button Command="{Binding NavigateCommand}">Navigate</Button>
         </StackPanel>
     </StackPanel>

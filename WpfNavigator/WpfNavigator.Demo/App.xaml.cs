@@ -13,7 +13,7 @@ namespace WpfNavigator.Demo
         {
             var bootstrapper = new WpfNavigatorBootstrapper();
 
-            bootstrapper.Initialize(new HomeNavigationToken());
+            bootstrapper.RegisterStartupToken(new HomeNavigationToken()).Run();
         }
     }
 }

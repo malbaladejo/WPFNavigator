@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 using WpfNavigator.Core.Navigation;
 
 namespace WpfNavigator.Demo.Views.Home
@@ -20,6 +21,35 @@ namespace WpfNavigator.Demo.Views.Home
         private void OpenNewWindow()
         {
             this.navigationService.NavigateAsync(new HomeNavigationToken().OpenInNewWindow());
+        }
+
+        [RelayCommand]
+        private void OpenBigWindow()
+        {
+            this.navigationService.NavigateAsync(
+                new HomeNavigationToken()
+                .OpenInNewWindow()
+                .Width(2048)
+                .Height(1024));
+        }
+
+        [RelayCommand]
+        private void OpenCenterScreenWindow()
+        {
+            this.navigationService.NavigateAsync(
+                new HomeNavigationToken()
+                .OpenInNewWindow()
+                .WindowStartupLocation(WindowStartupLocation.CenterScreen));
+        }
+
+        [RelayCommand]
+        private void OpenCenterOwnerWindow()
+        {
+            this.navigationService.NavigateAsync(
+                new HomeNavigationToken()
+                .OpenInNewWindow()
+                .CurrentWindowAsOwner()
+                .WindowStartupLocation(WindowStartupLocation.CenterOwner));
         }
 
         [RelayCommand]

@@ -19,7 +19,15 @@ namespace WpfNavigator.Core
         protected virtual void RegisterNavigatableWindow()
             => this.container.Register<INavigatableWindow, NavigatableWindow>();
 
-        public void Initialize<TToken>(TToken homeNavigationToken) where TToken : INavigationToken
+        private INavigatableWindow startupToken;
+
+        public WpfNavigatorBoostraperCore RegisterStartupToken<TToken>(TToken token) where TToken : INavigatableWindow
+        {
+            this.startupToken = token;
+            return this;
+        }
+
+        public void Run()
         {
             // container
             this.container = this.CreateContainer();
@@ -40,7 +48,10 @@ namespace WpfNavigator.Core
             var window = this.CreateNavigatableWindow();
             window.Show();
 
-            window.NavigateAsync(homeNavigationToken);
+            if (this.startupToken != null)
+            {
+                window.NavigateAsync(this.startupToken);
+            }
         }
     }
 }

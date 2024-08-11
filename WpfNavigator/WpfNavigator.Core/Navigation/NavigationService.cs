@@ -14,8 +14,6 @@ namespace WpfNavigator.Core.Navigation
         public async Task NavigateAsync<TToken>(TToken token) where TToken : INavigationToken
         {
             var window = this.windowController.GetWidow(token);
-
-            // TODO restore window if hidden
             window.Show();
 
             if (token is NewWindowNavigationToken newWindowNavigationToken)

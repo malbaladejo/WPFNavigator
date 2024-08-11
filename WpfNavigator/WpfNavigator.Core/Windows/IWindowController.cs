@@ -6,6 +6,6 @@ namespace WpfNavigator.Core.Windows
     {
         INavigatableWindow GetWidow(INavigationToken token);
 
-        INavigatableWindow CreateWindow();
+        INavigatableWindow CreateWindow(INavigationToken token = null);
     }
 }
