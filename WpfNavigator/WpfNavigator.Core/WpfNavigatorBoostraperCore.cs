@@ -13,15 +13,15 @@ namespace WpfNavigator.Core
 
         protected abstract ILogger CreateLogger();
 
-        protected virtual INavigatableWindow CreateNavigatableWindow()
+        protected virtual INavigationWindow CreateNavigationWindow()
             => this.container.Resolve<WindowController>().CreateWindow();
 
-        protected virtual void RegisterNavigatableWindow()
-            => this.container.Register<INavigatableWindow, NavigatableWindow>();
+        protected virtual void RegisterNavigationWindow()
+            => this.container.Register<INavigationWindow, NavigationWindow>();
 
-        private INavigatableWindow startupToken;
+        private INavigationToken startupToken;
 
-        public WpfNavigatorBoostraperCore RegisterStartupToken<TToken>(TToken token) where TToken : INavigatableWindow
+        public WpfNavigatorBoostraperCore RegisterStartupToken<TToken>(TToken token) where TToken : INavigationToken
         {
             this.startupToken = token;
             return this;
@@ -37,15 +37,13 @@ namespace WpfNavigator.Core
             this.container.RegisterInstance(this.CreateLogger());
 
             // register mandatory impl
-            this.RegisterNavigatableWindow();
+            this.RegisterNavigationWindow();
 
             this.container.Register<IWindowController, WindowController>();
-            //this.container.Register<INavigationService, NavigationService>();
             this.container.RegisterSingleton<INavigationContainer, NavigationContainer>();
-            //this.container.Register<IViewResolver, ViewResolver>();
 
             // window
-            var window = this.CreateNavigatableWindow();
+            var window = this.CreateNavigationWindow();
             window.Show();
 
             if (this.startupToken != null)

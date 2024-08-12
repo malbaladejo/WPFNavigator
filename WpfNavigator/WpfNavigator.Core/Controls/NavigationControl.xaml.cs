@@ -9,11 +9,11 @@ using WpfNavigator.Core.Windows;
 namespace WpfNavigator.Core.Controls
 {
     /// <summary>
-    /// Interaction logic for NavigatableControl.xaml
+    /// Interaction logic for NavigationControl.xaml
     /// </summary>
-    public partial class NavigatableControl : UserControl
+    public partial class NavigationControl : UserControl
     {
-        public NavigatableControl()
+        public NavigationControl()
         {
             InitializeComponent();
         }
@@ -28,10 +28,10 @@ namespace WpfNavigator.Core.Controls
             DependencyProperty.Register(
                 nameof(NavigationToken),
                 typeof(INavigationToken),
-                typeof(NavigatableControl),
+                typeof(NavigationControl),
                 new FrameworkPropertyMetadata(null, (DependencyObject d, DependencyPropertyChangedEventArgs e) =>
                 {
-                    var navigatableControl = (NavigatableControl)d;
+                    var navigatableControl = (NavigationControl)d;
                     navigatableControl.OnNavigationTokenChanged(e.NewValue as INavigationToken);
                 }));
 
@@ -139,20 +139,10 @@ namespace WpfNavigator.Core.Controls
             return false;
         }
 
-        private INavigatableWindow CurrentWindow
-        {
-            get
-            {
-                var window = Window.GetWindow(this) as INavigatableWindow;
-
-                if (window == null)
-                    throw new InvalidOperationException($"{nameof(NavigatableControl)} must be used in {nameof(INavigatableWindow)}");
-
-                return window;
-            }
-        }
+        private INavigationWindow CurrentWindow => this.GetWindow();
 
         private IViewResolver ViewResolver => this.CurrentWindow.ViewResolver;
+
         private ILogger Logger => this.CurrentWindow.Logger;
     }
 }

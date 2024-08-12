@@ -1,0 +1,22 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:navigationControls="clr-namespace:WpfNavigator.Core.Controls">
+
+    <!-- // TODO extract in new file and move file to Controls directory .-->
+    <Style TargetType="{x:Type navigationControls:NavigationLink}">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate  TargetType="navigationControls:NavigationLink">
+                    <TextBlock x:Name="PART_Label" 
+                           Text="{Binding NavigationToken.Label, RelativeSource={RelativeSource AncestorType={x:Type navigationControls:NavigationLink}}}" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="PART_Label" Property="TextBlock.TextDecorations" Value="Underline"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

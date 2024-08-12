@@ -6,12 +6,12 @@ using WpfNavigator.Core.ViewResolvers;
 namespace WpfNavigator.Core.Windows
 {
     /// <summary>
-    /// Interaction logic for NavigatableWindow.xaml
+    /// Interaction logic for NavigationWindow.xaml
     /// </summary>
-    public partial class NavigatableWindow : Window, INavigatableWindow
+    public partial class NavigationWindow : Window, INavigationWindow
     {
         //private INavigationToken? navigationToken;
-        public NavigatableWindow(ILogger logger, IViewResolver viewResolver)
+        public NavigationWindow(ILogger logger, IViewResolver viewResolver)
         {
             this.InitializeComponent();
             this.Logger = logger;
@@ -19,6 +19,8 @@ namespace WpfNavigator.Core.Windows
         }
 
         public IViewResolver ViewResolver { get; }
+
+        public INavigationService NavigationService { get; set; }
 
         public ILogger Logger { get; }
 

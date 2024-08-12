@@ -4,8 +4,8 @@ namespace WpfNavigator.Core.Windows
 {
     public interface IWindowController
     {
-        INavigatableWindow GetWidow(INavigationToken token);
+        INavigationWindow GetWidow(INavigationToken token);
 
-        INavigatableWindow CreateWindow(INavigationToken token = null);
+        INavigationWindow CreateWindow(INavigationToken token = null);
     }
 }

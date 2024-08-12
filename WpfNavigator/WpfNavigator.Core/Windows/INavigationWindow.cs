@@ -6,9 +6,9 @@ using WpfNavigator.Core.ViewResolvers;
 
 namespace WpfNavigator.Core.Windows
 {
-    public interface INavigatableWindow
+    public interface INavigationWindow
     {
-        Task NavigateAsync<TToken>(TToken token) where TToken : INavigationToken;
+        internal Task NavigateAsync<TToken>(TToken token) where TToken : INavigationToken;
 
         ///<summary>
         /// Opens a window and returns without waiting for the newly opened window to close.
@@ -96,6 +96,8 @@ namespace WpfNavigator.Core.Windows
         public WindowStartupLocation WindowStartupLocation { get; set; }
 
         IViewResolver ViewResolver { get; }
+
+        INavigationService NavigationService { get; set; }
 
         ILogger Logger { get; }
     }

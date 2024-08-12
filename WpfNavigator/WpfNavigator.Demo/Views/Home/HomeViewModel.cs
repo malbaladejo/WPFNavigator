@@ -17,6 +17,8 @@ namespace WpfNavigator.Demo.Views.Home
             this.navigationService = navigationService;
         }
 
+        public INavigationToken HomeToken { get; } = new HomeNavigationToken();
+
         [RelayCommand]
         private void OpenNewWindow()
         {

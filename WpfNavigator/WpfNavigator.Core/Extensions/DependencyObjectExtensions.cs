@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Media;
+using WpfNavigator.Core.Controls;
+using WpfNavigator.Core.Windows;
 
 namespace WpfNavigator.Core.Extensions
 {
@@ -59,6 +61,16 @@ namespace WpfNavigator.Core.Extensions
                     queue.Enqueue(o);
                 }
             }
+        }
+
+        public static INavigationWindow GetWindow(this DependencyObject item)
+        {
+            var window = Window.GetWindow(item) as INavigationWindow;
+
+            if (window == null)
+                throw new InvalidOperationException($"{nameof(NavigationControl)} must be used in {nameof(INavigationWindow)}");
+
+            return window;
         }
     }
 }

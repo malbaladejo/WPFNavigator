@@ -18,8 +18,8 @@ namespace WpfNavigator.Core.Navigation
 
             if (token is NewWindowNavigationToken newWindowNavigationToken)
                 await window.NavigateAsync(newWindowNavigationToken.Target);
-
-            await window.NavigateAsync(token);
+            else
+                await window.NavigateAsync(token);
         }
     }
 }

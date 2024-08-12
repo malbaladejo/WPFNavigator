@@ -15,9 +15,9 @@ namespace WpfNavigator.Core.Windows
             this.container = container;
         }
 
-        internal INavigatableWindow CurrentWindow { get; set; }
+        internal INavigationWindow CurrentWindow { get; set; }
 
-        public INavigatableWindow CreateWindow(INavigationToken token = null)
+        public INavigationWindow CreateWindow(INavigationToken token = null)
         {
             // Container
             var childContainer = this.container.CreateChildContainer();
@@ -36,19 +36,19 @@ namespace WpfNavigator.Core.Windows
             childContainer.RegisterInstance<IViewResolver>(viewResolver);
 
             // Window
-            var window = childContainer.Resolve<INavigatableWindow>();
+            var window = childContainer.Resolve<INavigationWindow>();
             this.SetWindowMetada(window, token);
-
             windowController.CurrentWindow = window;
 
             // INavigationService
             var navigationService = childContainer.Resolve<NavigationService>();
             childContainer.RegisterInstance<INavigationService>(navigationService);
+            window.NavigationService = navigationService;
 
             return window;
         }
 
-        private void SetWindowMetada(INavigatableWindow window, INavigationToken? token)
+        private void SetWindowMetada(INavigationWindow window, INavigationToken? token)
         {
             if (token is NewWindowNavigationToken newWindowNavigationToken)
             {
@@ -72,7 +72,7 @@ namespace WpfNavigator.Core.Windows
             }
         }
 
-        public INavigatableWindow GetWidow(INavigationToken token)
+        public INavigationWindow GetWidow(INavigationToken token)
         {
             if (token is NewWindowNavigationToken newWindowNavigationToken)
                 return this.CreateWindow(token);

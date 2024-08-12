@@ -1,2 +1,0 @@
-* NavigationLink
-* Historique de navigation
