@@ -7,6 +7,9 @@ namespace WpfNavigator.Core.Navigation
         public static NewWindowNavigationToken OpenInNewWindow(this INavigationToken token)
             => new NewWindowNavigationToken(token);
 
+        public static RegionNavigationToken OpenInRegion(this INavigationToken token, string regionName)
+             => new RegionNavigationToken(token, regionName);
+
         public static NewWindowNavigationToken Size(this NewWindowNavigationToken token, double width, double height)
         {
             token.Width = width;

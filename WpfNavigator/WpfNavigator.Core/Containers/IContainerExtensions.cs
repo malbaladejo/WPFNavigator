@@ -11,5 +11,8 @@
             container.Register<TSource, TTarget>(typeof(TTarget).FullName);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
+
+        public static T Resolve<T>(this IContainer container)
+            => (T)container.Resolve(typeof(T));
     }
 }

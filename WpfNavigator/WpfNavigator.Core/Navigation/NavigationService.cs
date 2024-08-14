@@ -16,10 +16,16 @@ namespace WpfNavigator.Core.Navigation
             var window = this.windowController.GetWidow(token);
             window.Show();
 
-            if (token is NewWindowNavigationToken newWindowNavigationToken)
-                await window.NavigateAsync(newWindowNavigationToken.Target);
-            else
-                await window.NavigateAsync(token);
+            switch (token)
+            {
+                case NewWindowNavigationToken newWindowNavigationToken:
+                    await window.NavigateAsync(newWindowNavigationToken.Target);
+                    break;
+
+                default:
+                    await window.NavigateAsync(token);
+                    break;
+            }
         }
     }
 }

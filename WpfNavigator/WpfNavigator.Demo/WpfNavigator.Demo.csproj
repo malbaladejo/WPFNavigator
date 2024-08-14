@@ -17,4 +17,10 @@
     <ProjectReference Include="..\WpfNavigator.Core\WpfNavigator.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\ViewB\ViewBView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

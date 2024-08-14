@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
 using WpfNavigator.Core.Navigation;
+using WpfNavigator.Demo.Views.ViewA;
+using WpfNavigator.Demo.Views.ViewB;
 
 namespace WpfNavigator.Demo.Views.Home
 {
@@ -18,6 +20,9 @@ namespace WpfNavigator.Demo.Views.Home
         }
 
         public INavigationToken HomeToken { get; } = new HomeNavigationToken();
+
+        public INavigationToken ViewAToken { get; } = new ViewANavigationToken().OpenInRegion("MainContent");
+        public INavigationToken ViewBToken { get; } = new ViewBNavigationToken().OpenInRegion("MainContent");
 
         [RelayCommand]
         private void OpenNewWindow()

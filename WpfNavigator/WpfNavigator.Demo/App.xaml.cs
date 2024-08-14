@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using WpfNavigator.Bootstrapper;
-using WpfNavigator.Demo.Views.Home;
 
 namespace WpfNavigator.Demo
 {
@@ -11,9 +10,18 @@ namespace WpfNavigator.Demo
     {
         public App()
         {
+            this.Startup += this.App_Startup;
+
+        }
+
+        private async void App_Startup(object sender, StartupEventArgs e)
+        {
             var bootstrapper = new WpfNavigatorBootstrapper();
 
-            bootstrapper.RegisterStartupToken(new HomeNavigationToken()).Run();
+            await bootstrapper.Build()
+                 .RegisterModule<MainModule>()
+                 .DefaultWindowSize(1024, 600)
+                 .RunAsync();
         }
     }
 }

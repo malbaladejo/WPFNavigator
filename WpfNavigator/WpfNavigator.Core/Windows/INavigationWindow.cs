@@ -100,5 +100,7 @@ namespace WpfNavigator.Core.Windows
         INavigationService NavigationService { get; set; }
 
         ILogger Logger { get; }
+
+        Containers.IContainer Container { get; }
     }
 }

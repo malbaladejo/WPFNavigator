@@ -35,4 +35,5 @@ namespace WpfNavigator.Core.Navigation
         /// is set with a window that has not been previously shown.</exception>
         public Window? Owner { get; set; }
     }
+
 }

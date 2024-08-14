@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfNavigator.Core.Windows" 
         xmlns:controls="clr-namespace:WpfNavigator.Core.Controls"
         mc:Ignorable="d"
-        Title="Navigatable -- Window" Height="450" Width="800">
+        Title="Navigatable -- Window" Height="1024" Width="2048">
     <StackPanel>
         <TextBlock Text="window"/>
         <controls:NavigationControl x:Name="navigatableControl" />

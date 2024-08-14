@@ -6,5 +6,4 @@
              xmlns:local="clr-namespace:WpfNavigator.Core.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <TextBlock Text="test"/>
 </UserControl>

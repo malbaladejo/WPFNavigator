@@ -9,10 +9,12 @@ namespace WpfNavigator.Core.Windows
     internal class WindowController : IWindowController
     {
         private readonly IContainer container;
+        private readonly IApplicationSettings applicationSettings;
 
-        public WindowController(IContainer container)
+        public WindowController(IContainer container, IApplicationSettings applicationSettings)
         {
             this.container = container;
+            this.applicationSettings = applicationSettings;
         }
 
         internal INavigationWindow CurrentWindow { get; set; }
@@ -39,6 +41,11 @@ namespace WpfNavigator.Core.Windows
             var window = childContainer.Resolve<INavigationWindow>();
             this.SetWindowMetada(window, token);
             windowController.CurrentWindow = window;
+
+            if (this.applicationSettings.WindowWidth.HasValue)
+                window.Width = this.applicationSettings.WindowWidth.Value;
+            if (this.applicationSettings.WindowHeight.HasValue)
+                window.Height = this.applicationSettings.WindowHeight.Value;
 
             // INavigationService
             var navigationService = childContainer.Resolve<NavigationService>();
